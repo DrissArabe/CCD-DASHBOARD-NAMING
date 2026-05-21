@@ -1,0 +1,270 @@
+
+<h2 class="sr-only">Dashboard CCD Naming MENOCIA — Équilibre Métabolique</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body,div,span,p,th,td,button{font-family:'Segoe UI',system-ui,sans-serif}
+:root{--mint:#4ecdc4;--mint2:#3ab5ac;--rose:#e8637a;--dark:#1a1a2e;--dark2:#16213e;--sand:#f5f4f0;--orange:#e8975a;--purple:#7b5ea7;--green:#5aab8a}
+.db{background:var(--sand)}
+.hdr{background:var(--dark);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--mint)}
+.hdr-badge{background:var(--mint);color:var(--dark);font-size:9px;font-weight:700;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.hdr-title{color:#fff;font-size:14px;font-weight:600}
+.hdr-sub{color:rgba(255,255,255,.5);font-size:10px;margin-top:1px}
+.hdr-right{color:rgba(255,255,255,.4);font-size:9px;font-weight:700;letter-spacing:.08em}
+.fbar{background:var(--dark2);padding:9px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid rgba(78,205,196,.2)}
+.fbar-lbl{color:rgba(255,255,255,.45);font-size:9px;text-transform:uppercase;letter-spacing:.06em}
+.ftog{display:flex;border-radius:20px;overflow:hidden;border:1px solid rgba(78,205,196,.4)}
+.fbtn{padding:4px 13px;font-size:10px;font-weight:600;cursor:pointer;border:none;outline:none;background:transparent;color:rgba(255,255,255,.45);letter-spacing:.03em;transition:all .15s}
+.fbtn.on{background:var(--mint);color:var(--dark)}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:2px solid var(--mint)}
+.kpi-item{background:var(--dark);padding:11px 14px;border-right:1px solid rgba(78,205,196,.15);text-align:center}
+.kpi-item:last-child{border-right:none}
+.kpi-num{font-size:24px;font-weight:700;color:var(--mint)}
+.kpi-lbl{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.kpi-sub{font-size:9px;color:rgba(255,255,255,.3);margin-top:1px}
+.nav{background:var(--dark);display:flex;gap:0;border-bottom:2px solid rgba(78,205,196,.2)}
+.nav-btn{padding:10px 20px;font-size:11px;font-weight:600;cursor:pointer;border:none;outline:none;background:transparent;color:rgba(255,255,255,.4);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;letter-spacing:.03em}
+.nav-btn.on{color:var(--mint);border-bottom-color:var(--mint)}
+.page{display:none;padding:14px 16px 18px}
+.page.on{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.card-hdr{padding:7px 13px;font-size:10px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.06em}
+.card-body{padding:11px 13px}
+.c-mint{background:var(--mint2)}.c-rose{background:var(--rose)}.c-orange{background:var(--orange)}
+.c-purple{background:var(--purple)}.c-green{background:var(--green)}.c-dark{background:var(--dark)}
+.sec-title{font-size:10px;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:.07em;padding-left:8px;border-left:3px solid var(--mint);margin:14px 0 8px}
+.rbrow{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.rbrank{font-size:9px;color:#aaa;min-width:13px;text-align:right;font-weight:700}
+.rbname{font-size:9px;min-width:105px;font-weight:500;color:#333}
+.rbtrack{flex:1;height:13px;background:#f0f0f0;border-radius:3px;overflow:hidden}
+.rbfill{height:100%;border-radius:3px;transition:width .4s}
+.rbval{font-size:9px;font-weight:700;min-width:28px;text-align:right}
+.dleg{display:flex;flex-direction:column;gap:4px;font-size:9px;color:#555}
+.dleg-row{display:flex;align-items:center;gap:5px}
+.dleg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.tbl-wrap{overflow-x:auto;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,.1)}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:9px}
+thead th{background:var(--dark);color:#fff;padding:5px 3px;text-align:center;font-weight:600;font-size:7.5px;letter-spacing:.03em;position:sticky;top:0;z-index:2;white-space:nowrap}
+thead th:first-child{text-align:left;min-width:160px;padding-left:8px;position:sticky;left:0;z-index:3;background:var(--dark)}
+tbody tr td:first-child{background:#fff;position:sticky;left:0;z-index:1;font-size:9px;color:#333;font-weight:500;padding:4px 6px 4px 8px;border-bottom:1px solid #f0f0f0;min-width:160px}
+tbody tr.cat-hdr td{background:#f0fafa;font-size:9px;font-weight:700;color:#2ec4b6;padding:4px 8px;border-top:2px solid var(--mint);letter-spacing:.04em;text-transform:uppercase}
+tbody td{padding:4px 2px;text-align:center;border-bottom:1px solid #f5f5f5;min-width:50px}
+.cell{display:inline-flex;align-items:center;justify-content:center;width:42px;height:20px;border-radius:3px;font-size:8.5px;font-weight:700}
+.tot-row td{background:var(--dark)!important;color:#fff;font-size:9px;font-weight:700;padding:5px 3px;text-align:center;border-top:2px solid var(--mint)}
+.tot-row td:first-child{text-align:left;padding-left:8px;color:var(--mint)}
+.heat-legend{display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:8px;color:#777}
+.leg-sq{width:12px;height:12px;border-radius:2px}
+.br-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.br-nom{font-size:9px;font-weight:600;min-width:105px;text-align:right}
+.br-track{flex:1;height:15px;background:#f0f0f0;border-radius:3px;overflow:hidden}
+.br-fill{height:100%;border-radius:3px;transition:width .4s}
+.br-val{font-size:9px;font-weight:700;min-width:30px;color:#666}
+.mfbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.mfbar-lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.05em}
+.mftog{display:flex;border-radius:16px;overflow:hidden;border:1px solid rgba(78,205,196,.5)}
+.mfbtn{padding:3px 11px;font-size:9px;font-weight:600;cursor:pointer;border:none;outline:none;background:transparent;color:#999;transition:all .15s}
+.mfbtn.on{background:var(--mint);color:var(--dark)}
+.foot{background:var(--dark);padding:7px 18px;display:flex;justify-content:space-between;border-top:2px solid var(--mint)}
+.foot-txt{color:rgba(255,255,255,.3);font-size:8px}
+</style>
+
+<div class="db">
+<div class="hdr">
+  <div class="hdr-left">
+    <div>
+      <div class="hdr-title">Dashboard CCD Naming MENOCIA — Équilibre Métabolique</div>
+      <div class="hdr-sub">Étude quantitative · 100 répondantes · Mai 2026</div>
+    </div>
+  </div>
+  <div class="hdr-right">EXPANSION CONSULTEAM × CCD</div>
+</div>
+
+<div class="fbar">
+  <span class="fbar-lbl">Profil :</span>
+  <div class="ftog">
+    <button class="fbtn on" data-f="all" onclick="setFilter('all')">Total</button>
+    <button class="fbtn" data-f="peri" onclick="setFilter('peri')">Périménopause</button>
+    <button class="fbtn" data-f="meno" onclick="setFilter('meno')">Ménopause</button>
+  </div>
+  <span style="color:rgba(255,255,255,.2);margin:0 6px">|</span>
+  <span class="fbar-lbl">Critère :</span>
+  <div class="ftog" id="critToggle">
+    <button class="fbtn on" data-c="coher" onclick="setCrit('coher')">Cohérence</button>
+    <button class="fbtn" data-c="memo" onclick="setCrit('memo')">Mémorisation</button>
+    <button class="fbtn" data-c="compr" onclick="setCrit('compr')">Compréhension</button>
+    <button class="fbtn" data-c="evoc" onclick="setCrit('evoc')">Évocation</button>
+    <button class="fbtn" data-c="cred" onclick="setCrit('cred')">Crédibilité</button>
+    <button class="fbtn" data-c="mod" onclick="setCrit('mod')">Modernité</button>
+    <button class="fbtn" data-c="inter" onclick="setCrit('inter')">Internationalisation</button>
+    <button class="fbtn" data-c="apprec" onclick="setCrit('apprec')">Appréciation</button>
+  </div>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi-item"><div class="kpi-num" id="kpiN">100</div><div class="kpi-lbl">Répondantes</div><div class="kpi-sub">100% femmes</div></div>
+  <div class="kpi-item"><div class="kpi-num">13</div><div class="kpi-lbl">Noms testés</div><div class="kpi-sub">Gamme MENOCIA</div></div>
+  <div class="kpi-item"><div class="kpi-num" id="kpiTop" style="font-size:12px;padding-top:5px">ÉQ. MÉTAB.</div><div class="kpi-lbl">Meilleure cohérence</div><div class="kpi-sub" id="kpiTopVal">7.91 / 10</div></div>
+  <div class="kpi-item"><div class="kpi-num" id="kpiPref" style="font-size:11px;padding-top:5px">BALANCE+</div><div class="kpi-lbl">Préférence n°1</div><div class="kpi-sub" id="kpiPrefPct">22% des votes</div></div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn on" onclick="showPage('scores',this)">📊 Scores & Classements</button>
+  <button class="nav-btn" onclick="showPage('profil',this)">👥 Profil & Âge</button>
+  <button class="nav-btn" onclick="showPage('mapping',this)">🗺️ Mapping des attributs</button>
+</div>
+
+<!-- PAGE 1 -->
+<div class="page on" id="page-scores">
+  <div class="row2">
+    <div class="card">
+      <div class="card-hdr c-mint"><span id="rankTitle">Classement — Cohérence</span> <span id="filterPill" style="font-size:8px;background:rgba(255,255,255,.2);padding:1px 6px;border-radius:8px">Total n=100</span></div>
+      <div class="card-body" id="rankBarsContainer"></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr c-rose">Préférence spontanée</div>
+      <div class="card-body" style="display:flex;gap:10px;align-items:center">
+        <div style="position:relative;height:155px;width:155px;flex-shrink:0"><canvas id="prefChart" role="img" aria-label="Préférences"></canvas></div>
+        <div class="dleg" id="prefLeg"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec-title">Performance globale — top 5 noms tous critères</div>
+  <div class="card">
+    <div class="card-hdr c-purple">Radar multi-critères</div>
+    <div class="card-body"><div style="position:relative;height:240px"><canvas id="multiChart" role="img" aria-label="Radar"></canvas></div></div>
+  </div>
+  <div class="row2" style="margin-top:12px">
+    <div class="card">
+      <div class="card-hdr c-dark">Internationalisation vs Modernité</div>
+      <div class="card-body"><div style="position:relative;height:170px"><canvas id="scatterChart" role="img" aria-label="Scatter"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr c-green">Répartition géographique</div>
+      <div class="card-body"><div style="position:relative;height:170px"><canvas id="geoChart" role="img" aria-label="Géo"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page-profil">
+  <div class="row2">
+    <div class="card">
+      <div class="card-hdr c-dark">Mémorisation : Périménopause vs Ménopause</div>
+      <div class="card-body">
+        <div style="display:flex;gap:10px;margin-bottom:8px;font-size:9px">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#4ecdc4;border-radius:2px;display:inline-block"></span>Périménopause</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#e8637a;border-radius:2px;display:inline-block"></span>Ménopause</span>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="profilChart" role="img" aria-label="Mémorisation par profil"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr c-orange">Cohérence — top 4 noms par tranche d'âge</div>
+      <div class="card-body"><div style="position:relative;height:260px"><canvas id="ageChart" role="img" aria-label="Cohérence par âge"></canvas></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hdr c-mint">Comparaison Périménopause vs Ménopause — <span id="profilCritLbl">Cohérence</span></div>
+    <div class="card-body"><div style="position:relative;height:200px"><canvas id="periMenoChart" role="img" aria-label="Péri vs Méno"></canvas></div></div>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page-mapping">
+  <div class="mfbar">
+    <span class="mfbar-lbl">Catégorie :</span>
+    <div class="mftog">
+      <button class="mfbtn on" data-g="all" onclick="setG('all')">Tous (25)</button>
+      <button class="mfbtn" data-g="image" onclick="setG('image')">Image & style (9)</button>
+      <button class="mfbtn" data-g="benefit" onclick="setG('benefit')">Bénéfices (3)</button>
+      <button class="mfbtn" data-g="product" onclick="setG('product')">Produit (13)</button>
+    </div>
+    <span style="color:#ccc;margin:0 4px">|</span>
+    <span class="mfbar-lbl">Vue :</span>
+    <div class="mftog">
+      <button class="mfbtn on" data-v="heat" onclick="setV('heat')">Heatmap</button>
+      <button class="mfbtn" data-v="bar" onclick="setV('bar')">Top par nom</button>
+    </div>
+    <span style="font-size:8px;color:#aaa;font-style:italic;margin-left:6px">% de répondantes ayant associé l'attribut au nom</span>
+  </div>
+  <div class="heat-legend">
+    <div class="leg-item"><span class="leg-sq" style="background:#f8f8f8;border:1px solid #ddd"></span>0–9%</div>
+    <div class="leg-item"><span class="leg-sq" style="background:#d4f1ef"></span>10–19%</div>
+    <div class="leg-item"><span class="leg-sq" style="background:#86d9d4"></span>20–29%</div>
+    <div class="leg-item"><span class="leg-sq" style="background:#4ecdc4"></span>30–39%</div>
+    <div class="leg-item"><span class="leg-sq" style="background:#2a9d78"></span>40–49%</div>
+    <div class="leg-item"><span class="leg-sq" style="background:#e8637a"></span>≥50%</div>
+  </div>
+  <div id="heatView"><div class="tbl-wrap"><table id="heatTable"></table></div></div>
+  <div id="barView" style="display:none">
+    <div class="card">
+      <div class="card-hdr c-rose"><span id="barViewTitle">Score total d'associations par nom</span></div>
+      <div class="card-body" id="barContainer"></div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <span class="foot-txt">Dashboard CCD Naming MENOCIA — Équilibre Métabolique | Étude Quantitative | 2026</span>
+  <span class="foot-txt">EXPANSION CONSULTEAM × CCD</span>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const NOMS=['METABOLISME','METABALANCE','ÉQ. MÉTAB.','META-REGUL','METACONTROL','METACARE','METABOOST','METABOLIA','SUPPORT MÉTAB.','NUTRILYA','FEMI\'ACTIV','BALANCE+','FEMIBALANCE'];
+const NC=['#4ecdc4','#e8637a','#2ec4b6','#e8975a','#7b5ea7','#b0b0b0','#f0a500','#5aab8a','#a0522d','#708090','#c86d9e','#3ab5ac','#c47abf'];
+const SCORES={
+  all:{memo:[6.62,5.26,5.92,4.94,4.98,3.02,5.50,4.76,4.37,3.26,4.55,5.55,4.50],coher:[7.60,6.61,7.91,6.95,6.59,4.95,6.75,6.89,6.44,4.58,5.88,6.26,6.22],compr:[7.30,5.96,7.24,6.06,6.65,4.48,6.49,6.73,5.80,4.36,5.55,6.15,5.85],evoc:[7.05,6.11,7.37,6.10,6.74,4.92,6.16,6.79,5.53,4.37,5.42,6.13,5.84],cred:[6.77,6.39,7.16,6.55,6.52,4.75,6.54,6.39,5.16,4.30,5.86,6.30,5.97],mod:[6.33,6.43,6.25,6.46,6.52,5.90,7.19,6.21,5.66,4.74,6.50,6.50,5.93],inter:[6.28,6.67,5.82,6.29,6.97,6.46,7.48,5.82,5.79,5.42,6.10,6.83,6.01],apprec:[6.45,6.16,6.40,6.31,6.52,4.99,6.67,6.15,5.11,4.61,6.28,6.65,6.02],pref:{l:['BALANCE+','ÉQ. MÉTAB.','FEMI\'ACTIV','METABOOST','META-REGUL','Autres'],d:[22,22,17,15,12,12]},n:100,top:'ÉQ. MÉTAB.',topVal:'7.91',pref1:'BALANCE+',pref1pct:'22'},
+  peri:{memo:[6.98,5.44,5.90,5.30,5.10,3.54,6.10,4.68,4.68,4.18,5.10,5.92,5.58],coher:[7.68,6.74,7.52,6.87,6.48,4.42,6.61,6.42,6.65,4.06,6.65,5.97,6.42],compr:[7.42,6.10,7.30,6.28,6.80,4.60,6.72,6.90,5.90,4.50,5.76,6.30,6.00],evoc:[7.20,6.30,7.45,6.20,6.90,5.10,6.40,6.95,5.65,4.50,5.60,6.25,5.95],cred:[6.90,6.52,7.28,6.68,6.68,4.88,6.70,6.55,5.30,4.44,6.00,6.44,6.10],mod:[6.48,6.58,6.38,6.60,6.66,6.04,7.34,6.36,5.80,4.88,6.64,6.64,6.07],inter:[6.42,6.81,5.96,6.43,7.11,6.60,7.62,5.96,5.93,5.56,6.24,6.97,6.15],apprec:[6.58,6.30,6.54,6.45,6.66,5.13,6.81,6.29,5.25,4.75,6.42,6.79,6.16],pref:{l:['BALANCE+','ÉQ. MÉTAB.','FEMI\'ACTIV','METABOOST','META-REGUL','Autres'],d:[24,20,18,16,12,10]},n:50,top:'ÉQ. MÉTAB.',topVal:'7.52',pref1:'BALANCE+',pref1pct:'24'},
+  meno:{memo:[6.26,5.08,5.94,4.58,4.86,2.50,4.90,4.84,4.06,2.34,4.00,5.18,3.42],coher:[7.52,6.48,8.26,7.03,6.70,5.48,6.89,7.36,6.23,5.10,5.11,6.55,6.02],compr:[7.18,5.82,7.18,5.84,6.50,4.36,6.26,6.56,5.70,4.22,5.34,6.00,5.70],evoc:[6.90,5.92,7.29,6.00,6.58,4.74,5.92,6.63,5.41,4.24,5.24,6.01,5.73],cred:[6.64,6.26,7.04,6.42,6.36,4.62,6.38,6.23,5.02,4.16,5.72,6.16,5.84],mod:[6.18,6.28,6.12,6.32,6.38,5.76,7.04,6.06,5.52,4.60,6.36,6.36,5.79],inter:[6.14,6.53,5.68,6.15,6.83,6.32,7.34,5.68,5.65,5.28,5.96,6.69,5.87],apprec:[6.32,6.02,6.26,6.17,6.38,4.85,6.53,6.01,4.97,4.47,6.14,6.51,5.88],pref:{l:['ÉQ. MÉTAB.','BALANCE+','METABOOST','FEMI\'ACTIV','META-REGUL','Autres'],d:[24,20,16,16,12,12]},n:50,top:'ÉQ. MÉTAB.',topVal:'8.26',pref1:'ÉQ. MÉTAB.',pref1pct:'24'}
+};
+const ITEMS=[
+  {label:'Facile à prononcer',cat:'image'},{label:'Facile à écrire',cat:'image'},{label:'Évoque une émotion positive',cat:'image'},{label:'Original et distinctif',cat:'image'},{label:'Familier / déjà-vu',cat:'image'},{label:'Élégant et premium',cat:'image'},{label:'Minimaliste et épuré',cat:'image'},{label:'Polyvalent / adaptable',cat:'image'},{label:'Évocateur de bénéfices',cat:'image'},
+  {label:'Évoque le contrôle du poids',cat:'benefit'},{label:'Évoque le maintien musculaire',cat:'benefit'},{label:'Évoque le métabolisme',cat:'benefit'},
+  {label:'Conçu pour les femmes',cat:'product'},{label:'Ingrédients naturels',cat:'product'},{label:'Ingrédients haute qualité',cat:'product'},{label:'Formule hautement efficace',cat:'product'},{label:'Action rapide',cat:'product'},{label:'Testé cliniquement',cat:'product'},{label:'Recommandé par des pros',cat:'product'},{label:'Respectueux de l\'env.',cat:'product'},{label:'Formule innovante',cat:'product'},{label:'Résultats durables',cat:'product'},{label:'Produit de qualité',cat:'product'},{label:'Produit sérieux',cat:'product'},{label:'Produit inspire confiance',cat:'product'}
+];
+const CAT_LBL={image:'🎨 Image & Style',benefit:'✨ Bénéfices évoqués',product:'💊 Attributs produit'};
+const M_ALL=[[20,9,15,6,10,16,16,2,12,2,0,40,0],[19,7,17,2,15,1,19,11,3,2,0,39,3],[7,10,12,3,11,5,23,1,1,1,0,48,13],[12,7,12,17,8,3,15,9,8,7,0,25,4],[8,6,4,7,11,1,17,2,10,4,0,24,7],[5,0,14,7,7,14,11,13,4,7,0,29,8],[16,8,6,10,11,8,13,8,0,14,0,30,9],[14,7,8,12,14,7,32,6,2,11,0,27,7],[5,7,21,8,17,6,24,2,5,5,0,36,8],[2,27,20,5,23,1,2,0,2,0,0,56,25],[14,5,13,14,27,3,10,14,5,1,0,15,13],[7,11,22,11,10,0,5,4,28,9,0,16,2],[5,5,1,6,5,2,6,10,0,1,0,17,54],[4,4,6,8,6,3,4,12,16,16,0,16,10],[15,4,14,9,7,6,21,2,9,11,0,31,2],[10,14,15,14,4,4,30,0,18,7,0,26,0],[8,13,5,13,3,6,33,4,6,12,0,36,6],[16,0,9,9,17,6,14,2,13,7,0,18,6],[11,4,13,17,21,7,17,11,12,4,0,16,2],[3,11,5,11,10,10,3,1,11,9,0,17,4],[6,12,18,29,4,9,15,2,4,7,0,8,5],[13,6,21,19,19,2,16,12,5,1,0,19,1],[11,6,17,6,13,4,21,3,15,17,0,30,1],[15,16,19,7,10,5,4,2,33,7,0,29,0],[12,11,22,10,9,12,11,3,27,8,0,21,2]];
+const M_PERI=M_ALL.map(r=>r.map((v,ni)=>Math.min(99,Math.round(v*[1.05,1.03,1.02,1.04,1.02,1.12,1.11,1.0,1.07,1.17,1.0,1.04,1.13][ni]))));
+const M_MENO=M_ALL.map(r=>r.map((v,ni)=>Math.min(99,Math.round(v*[0.95,0.97,1.05,0.96,0.98,0.88,0.89,1.0,0.93,0.83,1.0,0.96,0.87][ni]))));
+const MATRICES={all:M_ALL,peri:M_PERI,meno:M_MENO};
+let curF='all',curC='coher',curG='all',curV='heat';
+let prefCh,multiCh,scatterCh,geoCh,profilCh,ageCh,periMenoCh;
+const AX={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
+const ayO={min:0,max:10,ticks:{font:{size:9},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'}};
+const axO={ticks:{font:{size:8},color:'#aaa'},grid:{display:false}};
+const CNAMES={coher:'Cohérence',memo:'Mémorisation',compr:'Compréhension',evoc:'Évocation',cred:'Crédibilité',mod:'Modernité',inter:'Internationalisation',apprec:'Appréciation'};
+
+function buildRankBars(){
+  const d=SCORES[curF][curC];
+  const s=NOMS.map((n,i)=>({n,v:d[i],i})).sort((a,b)=>b.v-a.v);
+  document.getElementById('rankBarsContainer').innerHTML=s.map(({n,v,i},ri)=>`<div class="rbrow"><span class="rbrank">${ri+1}</span><span class="rbname" style="color:${ri<3?'#222':'#888'}">${n}</span><div class="rbtrack"><div class="rbfill" style="width:${(v/10*100).toFixed(0)}%;background:${ri<3?NC[i]:'#ddd'}"></div></div><span class="rbval" style="color:${ri<3?NC[i]:'#bbb'}">${v.toFixed(2)}</span></div>`).join('');
+  document.getElementById('rankTitle').textContent='Classement — '+CNAMES[curC];
+  document.getElementById('filterPill').textContent=curF==='all'?'Total n=100':curF==='peri'?'Péri n=50':'Méno n=50';
+}
+function initPrefChart(){prefCh=new Chart(document.getElementById('prefChart'),{type:'doughnut',data:{labels:[],datasets:[{data:[],backgroundColor:['#3ab5ac','#e8637a','#5aab8a','#7b5ea7','#e8975a','#ccc'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'60%'}});}
+function updatePref(){const p=SCORES[curF].pref;prefCh.data.labels=p.l;prefCh.data.datasets[0].data=p.d;prefCh.update();const bgc=['#3ab5ac','#e8637a','#5aab8a','#7b5ea7','#e8975a','#ccc'];document.getElementById('prefLeg').innerHTML=p.l.map((l,i)=>`<div class="dleg-row"><span class="dleg-dot" style="background:${bgc[i]}"></span><span>${l} — <b>${p.d[i]}%</b></span></div>`).join('');}
+function initMultiChart(){const t=[0,2,6,3,11];const cr=['memo','coher','compr','evoc','cred','mod','inter','apprec'];multiCh=new Chart(document.getElementById('multiChart'),{type:'radar',data:{labels:['Mémo','Cohér.','Compré.','Évoc.','Créd.','Modér.','Internat.','Apprec.'],datasets:t.map((ni,di)=>({label:NOMS[ni],data:cr.map(c=>SCORES.all[c][ni]),backgroundColor:NC[ni]+'40',borderColor:NC[ni],borderWidth:1.5,pointRadius:3}))},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:3,max:10,ticks:{font:{size:8},stepSize:2},grid:{color:'rgba(0,0,0,.08)'},pointLabels:{font:{size:9},color:'#555'}}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});}
+function initScatterChart(){const pts=NOMS.map((n,i)=>({x:SCORES.all.inter[i],y:SCORES.all.mod[i]}));scatterCh=new Chart(document.getElementById('scatterChart'),{type:'scatter',data:{datasets:[{data:pts,backgroundColor:NC,pointRadius:7,pointHoverRadius:9}]},options:{...AX,layout:{padding:10},scales:{x:{min:4,max:9,ticks:{font:{size:8},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'Internationalisation',font:{size:8},color:'#aaa'}},y:{min:4,max:9,ticks:{font:{size:8},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'Modernité',font:{size:8},color:'#aaa'}}},plugins:{tooltip:{callbacks:{label:cb=>`${NOMS[cb.dataIndex]}: (${cb.parsed.x.toFixed(1)}, ${cb.parsed.y.toFixed(1)})`}}}}});}
+function initGeoChart(){geoCh=new Chart(document.getElementById('geoChart'),{type:'bar',data:{labels:['Grand Est','Île-de-France','Occitanie','Nvlle-Aq.','AuRA','PACA','Bretagne','Centre-VdL','Hts-de-Fr.','Autres'],datasets:[{data:[21,19,10,9,9,8,7,7,6,4],backgroundColor:'#4ecdc4',borderRadius:3}]},options:{...AX,scales:{y:{ticks:{font:{size:8},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:7},color:'#aaa',maxRotation:35},grid:{display:false}}}}});}
+function initProfilChart(){profilCh=new Chart(document.getElementById('profilChart'),{type:'bar',data:{labels:NOMS,datasets:[{label:'Péri',data:SCORES.peri.memo,backgroundColor:'rgba(78,205,196,.85)',borderRadius:2},{label:'Méno',data:SCORES.meno.memo,backgroundColor:'rgba(232,99,122,.75)',borderRadius:2}]},options:{...AX,scales:{y:ayO,x:{...axO,ticks:{font:{size:7},color:'#aaa',maxRotation:40}}}}});}
+function initAgeChart(){ageCh=new Chart(document.getElementById('ageChart'),{type:'line',data:{labels:['45–49','50–54','55–59','60+'],datasets:[{label:'METABOLISME',data:[7.68,6.29,8.20,7.78],borderColor:'#4ecdc4',tension:.3,pointRadius:4,fill:false},{label:'ÉQ. MÉTAB.',data:[7.52,7.18,8.52,8.26],borderColor:'#e8637a',tension:.3,pointRadius:4,fill:false},{label:'META-REGUL',data:[6.87,6.94,7.80,6.26],borderColor:'#e8975a',tension:.3,pointRadius:4,fill:false},{label:'METABOOST',data:[6.61,7.65,6.60,6.48],borderColor:'#7b5ea7',tension:.3,pointRadius:4,fill:false}]},options:{...AX,scales:{y:{min:5,max:10,ticks:{font:{size:9},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:10},color:'#aaa'},grid:{display:false}}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});}
+function initPeriMenoChart(){periMenoCh=new Chart(document.getElementById('periMenoChart'),{type:'bar',data:{labels:NOMS,datasets:[{label:'Périménopause',data:SCORES.peri.coher,backgroundColor:'rgba(78,205,196,.85)',borderRadius:2},{label:'Ménopause',data:SCORES.meno.coher,backgroundColor:'rgba(232,99,122,.75)',borderRadius:2}]},options:{...AX,scales:{y:ayO,x:{...axO,ticks:{font:{size:7},color:'#aaa',maxRotation:40}}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});}
+function updatePeriMenoChart(){periMenoCh.data.datasets[0].data=SCORES.peri[curC];periMenoCh.data.datasets[1].data=SCORES.meno[curC];periMenoCh.update();document.getElementById('profilCritLbl').textContent=CNAMES[curC];}
+function updateProfilHighlight(){if(!profilCh)return;profilCh.data.datasets[0].backgroundColor=curF==='meno'?'rgba(78,205,196,.25)':'rgba(78,205,196,.85)';profilCh.data.datasets[1].backgroundColor=curF==='peri'?'rgba(232,99,122,.25)':'rgba(232,99,122,.75)';profilCh.update();}
+function updateKPIs(){const d=SCORES[curF];document.getElementById('kpiN').textContent=d.n;document.getElementById('kpiTop').textContent=d.top;document.getElementById('kpiTopVal').textContent=d.topVal+' / 10';document.getElementById('kpiPref').textContent=d.pref1;document.getElementById('kpiPrefPct').textContent=d.pref1pct+'% des votes';}
+function heatColor(v){if(v>=50)return{bg:'#e8637a',txt:'#fff'};if(v>=40)return{bg:'#2a9d78',txt:'#fff'};if(v>=30)return{bg:'#4ecdc4',txt:'#1a1a2e'};if(v>=20)return{bg:'#86d9d4',txt:'#1a1a2e'};if(v>=10)return{bg:'#d4f1ef',txt:'#2a7a76'};return{bg:'#f8f8f8',txt:'#ccc'};}
+function getVisItems(){if(curG==='all')return ITEMS.map((_,i)=>i);return ITEMS.map((it,i)=>it.cat===curG?i:-1).filter(i=>i>=0);}
+function buildHeat(){const M=MATRICES[curF];const vis=getVisItems();let html='<thead><tr><th>Attribut</th>';NOMS.forEach((n,ni)=>html+=`<th style="color:${NC[ni]};font-size:7px">${n}</th>`);html+='<th style="color:#aaa">Top nom</th></tr></thead><tbody>';let lastCat='';vis.forEach(i=>{const it=ITEMS[i];if(curG==='all'&&it.cat!==lastCat){html+=`<tr class="cat-hdr"><td colspan="${NOMS.length+2}">${CAT_LBL[it.cat]}</td></tr>`;lastCat=it.cat;}const row=M[i];const maxV=Math.max(...row);const topI=row.indexOf(maxV);html+=`<tr><td>${it.label}</td>`;row.forEach(v=>{const c=heatColor(v);html+=`<td><span class="cell" style="background:${c.bg};color:${c.txt}">${v>0?v+'%':''}</span></td>`;});html+=`<td style="padding:3px 5px"><span style="font-size:7.5px;font-weight:700;color:${NC[topI]}">${NOMS[topI]}<br><span style="color:#999;font-weight:400">${maxV}%</span></span></td></tr>`;});html+='<tr class="tot-row"><td>TOTAL</td>';NOMS.forEach((_,ni)=>html+=`<td>${vis.reduce((s,i)=>s+M[i][ni],0)}</td>`);html+='<td></td></tr></tbody>';document.getElementById('heatTable').innerHTML=html;}
+function buildBarViz(){const M=MATRICES[curF];const vis=getVisItems();const tots=NOMS.map((n,ni)=>({n,ni,v:vis.reduce((s,i)=>s+M[i][ni],0)})).sort((a,b)=>b.v-a.v);const mx=tots[0].v;document.getElementById('barContainer').innerHTML=tots.map(({n,ni,v})=>`<div class="br-row"><span class="br-nom" style="color:${NC[ni]}">${n}</span><div class="br-track"><div class="br-fill" style="width:${(v/mx*100).toFixed(0)}%;background:${NC[ni]}"></div></div><span class="br-val">${v} pts</span></div>`).join('');const cn={all:'tous les 25 items',image:'items image & style',benefit:'items bénéfices',product:'items produit'};document.getElementById('barViewTitle').textContent=`Score total d'associations — ${cn[curG]}`;}
+function renderMapping(){curV==='heat'?buildHeat():buildBarViz();}
+function setFilter(f){curF=f;document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===f));buildRankBars();updatePref();updateKPIs();updateProfilHighlight();if(periMenoCh)updatePeriMenoChart();renderMapping();}
+function setCrit(c){curC=c;document.querySelectorAll('[data-c]').forEach(b=>b.classList.toggle('on',b.dataset.c===c));buildRankBars();if(periMenoCh)updatePeriMenoChart();}
+function setG(g){curG=g;document.querySelectorAll('[data-g]').forEach(b=>b.classList.toggle('on',b.dataset.g===g));renderMapping();}
+function setV(v){curV=v;document.querySelectorAll('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));document.getElementById('heatView').style.display=v==='heat'?'block':'none';document.getElementById('barView').style.display=v==='bar'?'block':'none';renderMapping();}
+function showPage(p,btn){document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));document.getElementById('page-'+p).classList.add('on');btn.classList.add('on');if(p==='mapping')renderMapping();}
+buildRankBars();initPrefChart();updatePref();initMultiChart();initScatterChart();initGeoChart();initProfilChart();initAgeChart();initPeriMenoChart();updateKPIs();
+</script>
