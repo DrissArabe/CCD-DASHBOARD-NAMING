@@ -151,7 +151,7 @@ tbody td{padding:4px 2px;text-align:center;border-bottom:1px solid #f5f5f5;min-w
 <div class="page" id="page-profil">
   <div class="row2">
     <div class="card">
-      <div class="card-hdr c-dark">Mémorisation : Périménopause vs Ménopause</div>
+      <div class="card-hdr c-dark"><span id="profilChartLbl">Mémorisation</span> : Périménopause vs Ménopause</div>
       <div class="card-body">
         <div style="display:flex;gap:10px;margin-bottom:8px;font-size:9px">
           <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#4ecdc4;border-radius:2px;display:inline-block"></span>Périménopause</span>
@@ -217,9 +217,42 @@ tbody td{padding:4px 2px;text-align:center;border-bottom:1px solid #f5f5f5;min-w
 const NOMS=['METABOLISME','METABALANCE','ÉQ. MÉTAB.','META-REGUL','METACONTROL','METACARE','METABOOST','METABOLIA','SUPPORT MÉTAB.','NUTRILYA','FEMI\'ACTIV','BALANCE+','FEMIBALANCE'];
 const NC=['#4ecdc4','#e8637a','#2ec4b6','#e8975a','#7b5ea7','#b0b0b0','#f0a500','#5aab8a','#a0522d','#708090','#c86d9e','#3ab5ac','#c47abf'];
 const SCORES={
-  all:{memo:[6.62,5.26,5.92,4.94,4.98,3.02,5.50,4.76,4.37,3.26,4.55,5.55,4.50],coher:[7.60,6.61,7.91,6.95,6.59,4.95,6.75,6.89,6.44,4.58,5.88,6.26,6.22],compr:[7.30,5.96,7.24,6.06,6.65,4.48,6.49,6.73,5.80,4.36,5.55,6.15,5.85],evoc:[7.05,6.11,7.37,6.10,6.74,4.92,6.16,6.79,5.53,4.37,5.42,6.13,5.84],cred:[6.77,6.39,7.16,6.55,6.52,4.75,6.54,6.39,5.16,4.30,5.86,6.30,5.97],mod:[6.33,6.43,6.25,6.46,6.52,5.90,7.19,6.21,5.66,4.74,6.50,6.50,5.93],inter:[6.28,6.67,5.82,6.29,6.97,6.46,7.48,5.82,5.79,5.42,6.10,6.83,6.01],apprec:[6.45,6.16,6.40,6.31,6.52,4.99,6.67,6.15,5.11,4.61,6.28,6.65,6.02],pref:{l:['BALANCE+','ÉQ. MÉTAB.','FEMI\'ACTIV','METABOOST','META-REGUL','Autres'],d:[22,22,17,15,12,12]},n:100,top:'ÉQ. MÉTAB.',topVal:'7.91',pref1:'BALANCE+',pref1pct:'22'},
-  peri:{memo:[6.98,5.44,5.90,5.30,5.10,3.54,6.10,4.68,4.68,4.18,5.10,5.92,5.58],coher:[7.68,6.74,7.52,6.87,6.48,4.42,6.61,6.42,6.65,4.06,6.65,5.97,6.42],compr:[7.42,6.10,7.30,6.28,6.80,4.60,6.72,6.90,5.90,4.50,5.76,6.30,6.00],evoc:[7.20,6.30,7.45,6.20,6.90,5.10,6.40,6.95,5.65,4.50,5.60,6.25,5.95],cred:[6.90,6.52,7.28,6.68,6.68,4.88,6.70,6.55,5.30,4.44,6.00,6.44,6.10],mod:[6.48,6.58,6.38,6.60,6.66,6.04,7.34,6.36,5.80,4.88,6.64,6.64,6.07],inter:[6.42,6.81,5.96,6.43,7.11,6.60,7.62,5.96,5.93,5.56,6.24,6.97,6.15],apprec:[6.58,6.30,6.54,6.45,6.66,5.13,6.81,6.29,5.25,4.75,6.42,6.79,6.16],pref:{l:['BALANCE+','ÉQ. MÉTAB.','FEMI\'ACTIV','METABOOST','META-REGUL','Autres'],d:[24,20,18,16,12,10]},n:50,top:'ÉQ. MÉTAB.',topVal:'7.52',pref1:'BALANCE+',pref1pct:'24'},
-  meno:{memo:[6.26,5.08,5.94,4.58,4.86,2.50,4.90,4.84,4.06,2.34,4.00,5.18,3.42],coher:[7.52,6.48,8.26,7.03,6.70,5.48,6.89,7.36,6.23,5.10,5.11,6.55,6.02],compr:[7.18,5.82,7.18,5.84,6.50,4.36,6.26,6.56,5.70,4.22,5.34,6.00,5.70],evoc:[6.90,5.92,7.29,6.00,6.58,4.74,5.92,6.63,5.41,4.24,5.24,6.01,5.73],cred:[6.64,6.26,7.04,6.42,6.36,4.62,6.38,6.23,5.02,4.16,5.72,6.16,5.84],mod:[6.18,6.28,6.12,6.32,6.38,5.76,7.04,6.06,5.52,4.60,6.36,6.36,5.79],inter:[6.14,6.53,5.68,6.15,6.83,6.32,7.34,5.68,5.65,5.28,5.96,6.69,5.87],apprec:[6.32,6.02,6.26,6.17,6.38,4.85,6.53,6.01,4.97,4.47,6.14,6.51,5.88],pref:{l:['ÉQ. MÉTAB.','BALANCE+','METABOOST','FEMI\'ACTIV','META-REGUL','Autres'],d:[24,20,16,16,12,12]},n:50,top:'ÉQ. MÉTAB.',topVal:'8.26',pref1:'ÉQ. MÉTAB.',pref1pct:'24'}
+  all:{
+    memo: [6.62,5.26,5.92,4.94,4.98,3.02,5.50,4.76,4.37,3.26,4.55,5.55,4.50],
+    coher:[7.60,6.61,7.91,6.95,6.59,4.95,6.75,6.89,6.44,4.58,5.88,6.26,6.22],
+    compr:[7.30,5.96,7.24,6.06,6.65,4.48,6.49,6.73,5.80,4.36,5.55,6.15,5.85],
+    evoc: [7.05,6.11,7.37,6.10,6.74,4.92,6.16,6.79,5.53,4.37,5.42,6.13,5.84],
+    cred: [6.77,6.39,7.16,6.55,6.52,4.75,6.54,6.39,5.16,4.30,5.86,6.30,5.97],
+    mod:  [6.33,6.43,6.25,6.46,6.52,5.90,7.19,6.21,5.66,4.74,6.50,6.50,5.93],
+    inter:[6.28,6.67,5.82,6.29,6.97,6.46,7.48,5.82,5.79,5.42,6.10,6.83,6.01],
+    apprec:[6.45,6.16,6.40,6.31,6.52,4.99,6.67,6.15,5.11,4.61,6.28,6.65,6.02],
+    pref:{l:['BALANCE+','ÉQ. MÉTAB.',"FEMI'ACTIV",'METABOOST','META-REGUL','Autres'],d:[22,22,17,15,12,12]},
+    n:100,top:'ÉQ. MÉTAB.',topVal:'7.91',pref1:'BALANCE+',pref1pct:'22'
+  },
+  peri:{
+    memo: [6.98,5.44,5.90,5.30,5.10,3.54,6.10,4.68,4.68,4.18,5.10,5.92,5.58],
+    coher:[7.36,6.78,7.48,7.16,6.76,5.36,6.70,6.40,6.74,5.36,6.60,6.18,6.72],
+    compr:[7.16,6.52,6.80,6.64,6.98,4.90,6.82,6.24,5.84,4.84,6.38,6.64,6.72],
+    evoc: [6.50,6.34,6.92,5.92,7.08,5.34,6.36,6.28,5.60,4.84,6.36,6.42,6.58],
+    cred: [6.34,6.78,6.96,6.54,6.66,4.70,6.68,5.94,5.02,4.54,6.36,6.50,6.56],
+    mod:  [5.94,6.10,5.88,6.22,6.66,5.98,6.96,5.94,5.28,4.80,7.04,6.32,6.24],
+    inter:[5.96,7.04,5.54,6.18,7.28,6.38,7.24,5.62,5.92,5.84,6.26,7.30,6.58],
+    apprec:[6.04,6.88,5.78,6.30,6.80,4.98,6.84,5.76,5.32,4.30,6.96,7.08,6.32],
+    pref:{l:['BALANCE+','ÉQ. MÉTAB.',"FEMI'ACTIV",'METABOOST','META-REGUL','Autres'],d:[24,20,18,16,12,10]},
+    n:50,top:'ÉQ. MÉTAB.',topVal:'7.48',pref1:'BALANCE+',pref1pct:'24'
+  },
+  meno:{
+    memo: [6.26,5.08,5.94,4.58,4.86,2.50,4.90,4.84,4.06,2.34,4.00,5.18,3.42],
+    coher:[7.84,6.44,8.34,6.74,6.42,4.54,6.80,7.38,6.14,3.80,5.16,6.34,5.72],
+    compr:[7.44,5.40,7.68,5.48,6.32,4.06,6.16,7.22,5.76,3.88,4.72,5.66,4.98],
+    evoc: [7.60,5.88,7.82,6.28,6.40,4.50,5.96,7.30,5.46,3.90,4.48,5.84,5.10],
+    cred: [7.20,6.00,7.36,6.56,6.38,4.80,6.40,6.84,5.30,4.06,5.36,6.10,5.38],
+    mod:  [6.72,6.76,6.62,6.70,6.38,5.82,7.42,6.48,6.04,4.68,5.96,6.68,5.62],
+    inter:[6.60,6.30,6.10,6.40,6.66,6.54,7.72,6.02,5.66,5.00,5.94,6.36,5.44],
+    apprec:[6.86,5.44,7.02,6.32,6.24,5.00,6.50,6.54,4.90,4.92,5.60,6.22,5.72],
+    pref:{l:['ÉQ. MÉTAB.','BALANCE+','METABOOST',"FEMI'ACTIV",'META-REGUL','Autres'],d:[24,20,16,16,12,12]},
+    n:50,top:'ÉQ. MÉTAB.',topVal:'8.34',pref1:'ÉQ. MÉTAB.',pref1pct:'24'
+  }
 };
 const ITEMS=[
   {label:'Facile à prononcer',cat:'image'},{label:'Facile à écrire',cat:'image'},{label:'Évoque une émotion positive',cat:'image'},{label:'Original et distinctif',cat:'image'},{label:'Familier / déjà-vu',cat:'image'},{label:'Élégant et premium',cat:'image'},{label:'Minimaliste et épuré',cat:'image'},{label:'Polyvalent / adaptable',cat:'image'},{label:'Évocateur de bénéfices',cat:'image'},
@@ -250,11 +283,56 @@ function updatePref(){const p=SCORES[curF].pref;prefCh.data.labels=p.l;prefCh.da
 function initMultiChart(){const t=[0,2,6,3,11];const cr=['memo','coher','compr','evoc','cred','mod','inter','apprec'];multiCh=new Chart(document.getElementById('multiChart'),{type:'radar',data:{labels:['Mémo','Cohér.','Compré.','Évoc.','Créd.','Modér.','Internat.','Apprec.'],datasets:t.map((ni,di)=>({label:NOMS[ni],data:cr.map(c=>SCORES.all[c][ni]),backgroundColor:NC[ni]+'40',borderColor:NC[ni],borderWidth:1.5,pointRadius:3}))},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:3,max:10,ticks:{font:{size:8},stepSize:2},grid:{color:'rgba(0,0,0,.08)'},pointLabels:{font:{size:9},color:'#555'}}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});}
 function initScatterChart(){const pts=NOMS.map((n,i)=>({x:SCORES.all.inter[i],y:SCORES.all.mod[i]}));scatterCh=new Chart(document.getElementById('scatterChart'),{type:'scatter',data:{datasets:[{data:pts,backgroundColor:NC,pointRadius:7,pointHoverRadius:9}]},options:{...AX,layout:{padding:10},scales:{x:{min:4,max:9,ticks:{font:{size:8},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'Internationalisation',font:{size:8},color:'#aaa'}},y:{min:4,max:9,ticks:{font:{size:8},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'Modernité',font:{size:8},color:'#aaa'}}},plugins:{tooltip:{callbacks:{label:cb=>`${NOMS[cb.dataIndex]}: (${cb.parsed.x.toFixed(1)}, ${cb.parsed.y.toFixed(1)})`}}}}});}
 function initGeoChart(){geoCh=new Chart(document.getElementById('geoChart'),{type:'bar',data:{labels:['Grand Est','Île-de-France','Occitanie','Nvlle-Aq.','AuRA','PACA','Bretagne','Centre-VdL','Hts-de-Fr.','Autres'],datasets:[{data:[21,19,10,9,9,8,7,7,6,4],backgroundColor:'#4ecdc4',borderRadius:3}]},options:{...AX,scales:{y:{ticks:{font:{size:8},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:7},color:'#aaa',maxRotation:35},grid:{display:false}}}}});}
-function initProfilChart(){profilCh=new Chart(document.getElementById('profilChart'),{type:'bar',data:{labels:NOMS,datasets:[{label:'Péri',data:SCORES.peri.memo,backgroundColor:'rgba(78,205,196,.85)',borderRadius:2},{label:'Méno',data:SCORES.meno.memo,backgroundColor:'rgba(232,99,122,.75)',borderRadius:2}]},options:{...AX,scales:{y:ayO,x:{...axO,ticks:{font:{size:7},color:'#aaa',maxRotation:40}}}}});}
-function initAgeChart(){ageCh=new Chart(document.getElementById('ageChart'),{type:'line',data:{labels:['45–49','50–54','55–59','60+'],datasets:[{label:'METABOLISME',data:[7.68,6.29,8.20,7.78],borderColor:'#4ecdc4',tension:.3,pointRadius:4,fill:false},{label:'ÉQ. MÉTAB.',data:[7.52,7.18,8.52,8.26],borderColor:'#e8637a',tension:.3,pointRadius:4,fill:false},{label:'META-REGUL',data:[6.87,6.94,7.80,6.26],borderColor:'#e8975a',tension:.3,pointRadius:4,fill:false},{label:'METABOOST',data:[6.61,7.65,6.60,6.48],borderColor:'#7b5ea7',tension:.3,pointRadius:4,fill:false}]},options:{...AX,scales:{y:{min:5,max:10,ticks:{font:{size:9},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:10},color:'#aaa'},grid:{display:false}}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});}
+function initProfilChart(){profilCh=new Chart(document.getElementById('profilChart'),{type:'bar',data:{labels:NOMS,datasets:[{label:'Péri',data:SCORES.peri.coher,backgroundColor:'rgba(78,205,196,.85)',borderRadius:2},{label:'Méno',data:SCORES.meno.coher,backgroundColor:'rgba(232,99,122,.75)',borderRadius:2}]},options:{...AX,scales:{y:ayO,x:{...axO,ticks:{font:{size:7},color:'#aaa',maxRotation:40}}}}});}
+function updateProfilChart(){
+  if(!profilCh) return;
+  profilCh.data.datasets[0].data=SCORES.peri[curC];
+  profilCh.data.datasets[1].data=SCORES.meno[curC];
+  // highlight based on curF
+  profilCh.data.datasets[0].backgroundColor=curF==='meno'?'rgba(78,205,196,.25)':'rgba(78,205,196,.85)';
+  profilCh.data.datasets[1].backgroundColor=curF==='peri'?'rgba(232,99,122,.25)':'rgba(232,99,122,.75)';
+  // update label
+  if(document.getElementById('profilChartLbl')) document.getElementById('profilChartLbl').textContent=CNAMES[curC];
+  profilCh.update();
+}
+
+// Age data per critère — valeurs réelles calculées depuis Test_Data.xlsx
+// Tranches: [45-49, 50-54, 55-59, 60+]  |  noms: n0=METABOLISME, n2=ÉQ.MÉTAB., n3=META-REGUL, n6=METABOOST
+const AGE_DATA={
+  memo:  {n0:[6.55,7.24,7.08,5.89], n2:[4.87,6.94,6.60,5.85], n3:[4.74,6.88,4.80,4.07], n6:[6.61,6.59,5.16,3.85]},
+  coher: {n0:[7.68,6.29,8.20,7.78], n2:[7.52,7.18,8.52,8.26], n3:[6.87,6.94,7.80,6.26], n6:[6.61,7.65,6.60,6.48]},
+  compr: {n0:[7.39,6.35,7.80,7.33], n2:[7.10,6.24,7.84,7.48], n3:[5.52,7.71,6.40,5.33], n6:[6.32,7.82,6.72,5.63]},
+  evoc:  {n0:[6.39,6.06,7.80,7.74], n2:[6.77,6.94,7.96,7.78], n3:[5.94,6.88,6.08,5.81], n6:[6.16,7.06,6.72,5.07]},
+  cred:  {n0:[6.84,6.06,6.24,7.63], n2:[7.06,6.35,6.88,8.04], n3:[6.03,7.18,6.60,6.70], n6:[6.81,6.59,6.48,6.26]},
+  mod:   {n0:[6.35,6.06,6.08,6.70], n2:[6.00,5.82,6.12,6.93], n3:[5.97,6.35,6.56,7.00], n6:[6.65,7.53,7.08,7.70]},
+  inter: {n0:[5.94,5.71,6.72,6.63], n2:[5.42,6.00,6.08,5.93], n3:[6.13,6.35,6.24,6.48], n6:[7.42,7.06,7.68,7.63]},
+  apprec:{n0:[5.74,6.65,6.68,6.93], n2:[5.87,6.18,6.12,7.41], n3:[5.84,7.18,6.52,6.11], n6:[6.52,7.00,6.96,6.37]}
+};
+function initAgeChart(){
+  ageCh=new Chart(document.getElementById('ageChart'),{type:'line',
+    data:{labels:['45–49','50–54','55–59','60+'],datasets:[
+      {label:'METABOLISME',data:AGE_DATA.coher.n0,borderColor:'#4ecdc4',tension:.3,pointRadius:4,fill:false},
+      {label:'ÉQ. MÉTAB.',data:AGE_DATA.coher.n2,borderColor:'#e8637a',tension:.3,pointRadius:4,fill:false},
+      {label:'META-REGUL',data:AGE_DATA.coher.n3,borderColor:'#e8975a',tension:.3,pointRadius:4,fill:false},
+      {label:'METABOOST',data:AGE_DATA.coher.n6,borderColor:'#7b5ea7',tension:.3,pointRadius:4,fill:false}
+    ]},
+    options:{...AX,scales:{y:{min:3,max:10,ticks:{font:{size:9},color:'#aaa'},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:10},color:'#aaa'},grid:{display:false}}},
+      plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});
+}
+function updateAgeChart(){
+  if(!ageCh) return;
+  const d=AGE_DATA[curC]||AGE_DATA.coher;
+  ageCh.data.datasets[0].data=d.n0;
+  ageCh.data.datasets[1].data=d.n2;
+  ageCh.data.datasets[2].data=d.n3;
+  ageCh.data.datasets[3].data=d.n6;
+  // update header label
+  document.querySelector('.c-orange').textContent=CNAMES[curC]+' — top 4 noms par tranche d\'âge';
+  ageCh.update();
+}
 function initPeriMenoChart(){periMenoCh=new Chart(document.getElementById('periMenoChart'),{type:'bar',data:{labels:NOMS,datasets:[{label:'Périménopause',data:SCORES.peri.coher,backgroundColor:'rgba(78,205,196,.85)',borderRadius:2},{label:'Ménopause',data:SCORES.meno.coher,backgroundColor:'rgba(232,99,122,.75)',borderRadius:2}]},options:{...AX,scales:{y:ayO,x:{...axO,ticks:{font:{size:7},color:'#aaa',maxRotation:40}}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:8},boxWidth:9,padding:6}}}}});}
 function updatePeriMenoChart(){periMenoCh.data.datasets[0].data=SCORES.peri[curC];periMenoCh.data.datasets[1].data=SCORES.meno[curC];periMenoCh.update();document.getElementById('profilCritLbl').textContent=CNAMES[curC];}
-function updateProfilHighlight(){if(!profilCh)return;profilCh.data.datasets[0].backgroundColor=curF==='meno'?'rgba(78,205,196,.25)':'rgba(78,205,196,.85)';profilCh.data.datasets[1].backgroundColor=curF==='peri'?'rgba(232,99,122,.25)':'rgba(232,99,122,.75)';profilCh.update();}
+function updateProfilHighlight(){updateProfilChart();}
 function updateKPIs(){const d=SCORES[curF];document.getElementById('kpiN').textContent=d.n;document.getElementById('kpiTop').textContent=d.top;document.getElementById('kpiTopVal').textContent=d.topVal+' / 10';document.getElementById('kpiPref').textContent=d.pref1;document.getElementById('kpiPrefPct').textContent=d.pref1pct+'% des votes';}
 function heatColor(v){if(v>=50)return{bg:'#e8637a',txt:'#fff'};if(v>=40)return{bg:'#2a9d78',txt:'#fff'};if(v>=30)return{bg:'#4ecdc4',txt:'#1a1a2e'};if(v>=20)return{bg:'#86d9d4',txt:'#1a1a2e'};if(v>=10)return{bg:'#d4f1ef',txt:'#2a7a76'};return{bg:'#f8f8f8',txt:'#ccc'};}
 function getVisItems(){if(curG==='all')return ITEMS.map((_,i)=>i);return ITEMS.map((it,i)=>it.cat===curG?i:-1).filter(i=>i>=0);}
@@ -262,7 +340,7 @@ function buildHeat(){const M=MATRICES[curF];const vis=getVisItems();let html='<t
 function buildBarViz(){const M=MATRICES[curF];const vis=getVisItems();const tots=NOMS.map((n,ni)=>({n,ni,v:vis.reduce((s,i)=>s+M[i][ni],0)})).sort((a,b)=>b.v-a.v);const mx=tots[0].v;document.getElementById('barContainer').innerHTML=tots.map(({n,ni,v})=>`<div class="br-row"><span class="br-nom" style="color:${NC[ni]}">${n}</span><div class="br-track"><div class="br-fill" style="width:${(v/mx*100).toFixed(0)}%;background:${NC[ni]}"></div></div><span class="br-val">${v} pts</span></div>`).join('');const cn={all:'tous les 25 items',image:'items image & style',benefit:'items bénéfices',product:'items produit'};document.getElementById('barViewTitle').textContent=`Score total d'associations — ${cn[curG]}`;}
 function renderMapping(){curV==='heat'?buildHeat():buildBarViz();}
 function setFilter(f){curF=f;document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===f));buildRankBars();updatePref();updateKPIs();updateProfilHighlight();if(periMenoCh)updatePeriMenoChart();renderMapping();}
-function setCrit(c){curC=c;document.querySelectorAll('[data-c]').forEach(b=>b.classList.toggle('on',b.dataset.c===c));buildRankBars();if(periMenoCh)updatePeriMenoChart();}
+function setCrit(c){curC=c;document.querySelectorAll('[data-c]').forEach(b=>b.classList.toggle('on',b.dataset.c===c));buildRankBars();if(periMenoCh)updatePeriMenoChart();updateProfilChart();updateAgeChart();}
 function setG(g){curG=g;document.querySelectorAll('[data-g]').forEach(b=>b.classList.toggle('on',b.dataset.g===g));renderMapping();}
 function setV(v){curV=v;document.querySelectorAll('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));document.getElementById('heatView').style.display=v==='heat'?'block':'none';document.getElementById('barView').style.display=v==='bar'?'block':'none';renderMapping();}
 function showPage(p,btn){document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));document.getElementById('page-'+p).classList.add('on');btn.classList.add('on');if(p==='mapping')renderMapping();}
